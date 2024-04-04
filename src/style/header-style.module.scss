@@ -1,0 +1,26 @@
+@keyframes handle-display  {
+    0% {  max-height: 0;}
+    1% { border-top: 1px solid black }
+    100% { max-height: 500px; border-top: 1px solid black}
+}
+
+@keyframes handle-none-display {
+    0% { max-height: 500px; border-top: 1px solid black}
+    99% { border-top: 1px solid black }
+    100% {  max-height: 0;}
+}
+
+.handle-display {
+    max-height: 500px; 
+    border-top: 1px solid black;
+    animation: handle-display;
+    animation-duration: .5s;
+}
+
+.handle-not-display {
+    max-height: 0;
+    overflow: hidden;
+    border: none;
+    animation: handle-none-display;
+    animation-duration: .3s;
+}

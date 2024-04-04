@@ -13,6 +13,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        "display-dropdown-menu": {
+          '0%': { heigh: "0" },
+          '100%': { heigh: '100%' }
+        }
+      }
     },
     screens: {
       sx: '320px',
