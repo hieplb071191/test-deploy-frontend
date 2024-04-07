@@ -49,7 +49,7 @@ export default function Header () {
     }
 
     return (
-        <nav className="relative z-50">
+        <nav className="relative z-50 sx:hidden xl:block">
             <section className="bg-[#e2f3f0] h-[53px] flex justify-center">
                 <div className="xl:container h-full flex justify-between items-center">
                     <span className="text-xs font-light text-slate-950">
@@ -76,7 +76,6 @@ export default function Header () {
                         <CustomDropdown title={'Trang chủ'} items={dropdownHomePageItem} handler={handleClickDropdown}/>
                         <CustomDropdown title={'Nam'} items={ManDropdownItem} handler={handleClickDropdown}/>
                         <CustomDropdown title={'Product view'} items={ManDropdownItem} handler={handleClickDropdown}/>
-                        <CustomDropdown title={'Product view'} items={[]} handler={handleClickDropdown} isLink={true}/>
                         <CustomDropdown title={'Blog'} items={[]} handler={handleClickDropdown}  isLink={true}/>
                         <CustomDropdown title={'Giới thiệu'} items={[]} handler={handleClickDropdown}  isLink={true}/>
                         <CustomDropdown title={'Liên hệ'} items={[]} handler={handleClickDropdown}  isLink={true}/>

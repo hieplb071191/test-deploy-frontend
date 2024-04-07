@@ -15,6 +15,9 @@
     border-top: 1px solid black;
     animation: handle-display;
     animation-duration: .5s;
+    li {
+        display: block;
+    }
 }
 
 .handle-not-display {
@@ -23,4 +26,7 @@
     border: none;
     animation: handle-none-display;
     animation-duration: .3s;
+    li {
+        display: none;
+    }
 }

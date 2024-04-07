@@ -1,0 +1,21 @@
+
+
+@keyframes display-border {
+    0% {  
+        border: 0 solid black;
+        opacity: .3;
+    }
+    100% {
+        border: 20px solid black;
+        opacity: .3;
+    }
+}
+
+.border-image-hover {
+    &:hover {
+        border: 20px solid black;
+        opacity: .3;
+        animation-name: display-border;
+        animation-duration: .5s;
+    }
+}
