@@ -110,7 +110,7 @@ export default function BannerCaurosel({datas, propId}: BannerCauroselProps) {
             <div className="w-12 h-10 absolute top-2/4 right-2 bg-white opacity-50 hover:opacity-100 flex justify-center items-center cursor-pointer" onClick={hanldeIncrementActiveImage}>
                 <KeyboardArrowRightIcon />
             </div>
-            <div className="w-12 flex justify-between items-center absolute bottom-2 left-1/2 right-1/2">
+            <div className="w-12 flex justify-between items-center absolute  left-1/2 right-1/2 sx:bottom-2 xl:bottom-40">
                 {
                     datas.map((item, index) => {
                         return (

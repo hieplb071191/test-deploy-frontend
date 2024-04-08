@@ -58,7 +58,7 @@ export default function Home() {
           <CustomImage imageUrl={'https://theme.hstatic.net/1000406172/1000655826/14/img_banner_home_3.jpg?v=164'}/>
         </div>
       </section>
-      <section className="m-auto xl:mt-48 2xl:mt-60 container">
+      <section className="m-auto sx:w-full xl:container xl:mt-48 2xl:mt-60 container">
         <div className="flex flex-col justify-center items-center mb-4">
             <span className="font-semibold text-xl font-sans">
               Sản phẩm mới
