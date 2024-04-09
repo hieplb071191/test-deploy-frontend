@@ -1,19 +1,22 @@
 import { TextField } from "@mui/material";
 import { FormikProps } from "formik";
-import {get} from 'lodash'
+import clsx from 'clsx'
+
 export interface TextFieldInputProps {
     name: string;
     formik: FormikProps<any>;
     label: string;
     placeholder: string;
+    className?: string
+    type?: string
 }
 
 const CustomInput = (props: TextFieldInputProps) => {
 
-    const { name, formik, label, placeholder } = props
+    const { name, formik, label, placeholder, className, type='text' } = props
 
     return (
-        <div>
+        <div className="flex flex-col w-full">
             <TextField 
                 fullWidth
                 id={name}
@@ -25,6 +28,8 @@ const CustomInput = (props: TextFieldInputProps) => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 error={formik.touched[name] && Boolean(formik.errors[name])}
+                className={clsx(className)}
+                type={type}
             />
            
                 {formik.errors[name] && (
