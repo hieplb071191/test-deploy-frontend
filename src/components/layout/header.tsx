@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import SearchInput from "../input/search-input"
 import axios from 'axios'
 import { Inter } from 'next/font/google'
@@ -9,6 +9,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LoginForm from "../login-form/login-from";
 import style from '../../style/header-style.module.scss'
+import { useSelector } from "react-redux";
 
 const inter = Inter({ subsets: ['latin'] })
 const dropdownHomePageItem = [
@@ -45,6 +46,12 @@ export default function Header () {
     const handlerSearch = useCallback(async (value: string) => {
         const test = await axios.get('https://lehiep-dev.xyz/api/health-check',)
     }, [])
+
+
+    const token = useSelector((state: any) => state.token)
+    useEffect(() => {
+        console.log(token)
+    }, [token])
 
     const handleClickDropdown = (value: string) => {
         console.log(value)
