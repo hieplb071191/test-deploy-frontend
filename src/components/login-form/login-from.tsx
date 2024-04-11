@@ -3,9 +3,14 @@ import { useFormik } from "formik";
 import * as yup from 'yup'
 import CustomInput from "../input/text-field";
 import CustomButton from "../input/custom-button";
+import { post } from "@/api/api-service";
+import { useDispatch } from "react-redux";
+import { setToken } from "@/redux/slices/token.slice";
+import { ThunkDispatch } from "redux-thunk";
+import { loginThunk } from "@/redux/thunks/login.thunk";
 
 export default function LoginForm() {
-
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>()
     const validationSchema = yup.object({
         email: yup
           .string()
@@ -24,7 +29,7 @@ export default function LoginForm() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-
+            dispatch(loginThunk(values))
         }
     })
 

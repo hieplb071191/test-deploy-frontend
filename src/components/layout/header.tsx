@@ -50,9 +50,13 @@ export default function Header () {
     }, [])
 
 
+    const [showLogin, setShowlogin] = useState(false)
+    const [isLogged, setLogged] = useState(false)
     const token = useSelector((state: any) => state.token)
     useEffect(() => {
-        console.log(token)
+        if (token.token) {
+            setLogged(true)
+        }
     }, [token])
 
     const handleClickDropdown = (value: string) => {
@@ -63,7 +67,6 @@ export default function Header () {
         setShowlogin(false)
     })
 
-    const [showLogin, setShowlogin] = useState(false)
 
     return (
         <nav className="relative z-50 sx:hidden xl:block">
@@ -103,7 +106,7 @@ export default function Header () {
                                 <PeopleAltOutlinedIcon sx={{fontSize: '30px'}} className="cursor-pointer"/>
                             </div>
                             {
-                            showLogin && (
+                            (!isLogged && showLogin) && (
                                 <div 
                                     className="absolute top-12 -right-5 xl:w-[400px] bg-white p-4 rounded-md z-30"  
                                     style={{boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}

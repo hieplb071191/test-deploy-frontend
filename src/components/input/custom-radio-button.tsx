@@ -27,13 +27,15 @@ export default function CustomRadioButton ({dataRadio, onhandler, formik, label,
                     formik.setFieldValue(name, event.target.value)
                 } }
                 onBlur={() => formik.handleBlur}
-                className="flex flex-row"
             >
-                {
-                    dataRadio.map((item, index) => (
-                        <FormControlLabel value={item.value} control={<Radio color="error"/>} label={item.label} key={index} className="w-auto h-auto"/>
-                    ))
-                }
+                <div className="flex flex-row">
+                    {
+                        dataRadio.map((item, index) => (
+                            <FormControlLabel value={item.value} control={<Radio color="error"/>} label={item.label} key={index} className="w-auto h-auto"/>
+                        ))
+                    }
+                </div>
+                
             </RadioGroup>
         </FormControl>
     )
