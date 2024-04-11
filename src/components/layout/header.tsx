@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import SearchInput from "../input/search-input"
 import axios from 'axios'
 import { Inter } from 'next/font/google'
@@ -9,6 +9,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LoginForm from "../login-form/login-from";
 import style from '../../style/header-style.module.scss'
+import useClickOutside from "@/hooks/useClickOutSide";
 
 const inter = Inter({ subsets: ['latin'] })
 const dropdownHomePageItem = [
@@ -42,13 +43,20 @@ const ManDropdownItem = [
 ]
 
 export default function Header () {
+    const loginRef = useRef(null)
     const handlerSearch = useCallback(async (value: string) => {
         const test = await axios.get('https://lehiep-dev.xyz/api/health-check',)
     }, [])
 
+    
+
     const handleClickDropdown = (value: string) => {
         console.log(value)
     }
+
+    useClickOutside(loginRef, () => {
+        setShowlogin(false)
+    })
 
     const [showLogin, setShowlogin] = useState(false)
 
@@ -85,7 +93,7 @@ export default function Header () {
                         <CustomDropdown title={'Liên hệ'} items={[]} handler={handleClickDropdown}  isLink={true}/>
                     </div>
                     <div className="flex justify-center gap-4 h-full items-center">
-                        <div className="relative">
+                        <div className="relative" ref={loginRef}>
                             <div onClick={() => setShowlogin(!showLogin)}>
                                 <PeopleAltOutlinedIcon sx={{fontSize: '30px'}} className="cursor-pointer"/>
                             </div>
