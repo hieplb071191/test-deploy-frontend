@@ -6,6 +6,7 @@ import { post, get } from '@/api/api-service'
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import useFetch from "@/hooks/useFetch";
 
 const bannerCauroselProp= [
     {
@@ -35,6 +36,8 @@ export default function Home() {
       console.log(e)
     }) 
   }, [])
+
+  const { loading, data, } = useFetch('product-admin/product', 'GET', {page: 1, perPage: 8}, token, )
 
   return (
     <main >

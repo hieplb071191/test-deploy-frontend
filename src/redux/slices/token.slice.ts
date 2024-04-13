@@ -12,11 +12,14 @@ const tokenReducer = createSlice({
     reducers: {
         setToken(state, action) {
             state.token = action.payload
+        },
+        logout(state) {
+            state.token = ''
         }
     },
     extraReducers(builder) {
         builder
-        .addCase(loginThunk.pending, (state, action) => {
+        .addCase(loginThunk.pending, (state) => {
             state.loading = true
         })
         .addCase(loginThunk.fulfilled, (state, action) => {
@@ -29,7 +32,9 @@ const tokenReducer = createSlice({
 
     }
 })
+const { actions, reducer } = tokenReducer
 export const {
-    setToken
-} = tokenReducer.actions
-export default tokenReducer.reducer
+    setToken,
+    logout,
+} = actions
+export default reducer

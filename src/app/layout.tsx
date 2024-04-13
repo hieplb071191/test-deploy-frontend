@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "@/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Suspense } from "react";
+import Footer from "@/components/layout/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
                 <>
                   <Header />
                     {children}
+                  <Footer />  
                 </>
               </PersistGate>
             </Provider>  

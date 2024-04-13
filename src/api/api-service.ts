@@ -1,5 +1,8 @@
+import { logout } from "@/redux/slices/token.slice";
+import { store } from "@/redux/store";
 import axios from "axios";
-import { error } from "console";
+import { bindActionCreators } from 'redux'
+
 
 
 const client = axios.create({
@@ -10,17 +13,6 @@ const client = axios.create({
     }
 })
 
-client.interceptors.response.use(
-    (response) => {
-        return response
-    }, 
-    (error) => {
-        if (window?.localStorage) {
-            window.localStorage.clear()
-        }
-        console.log(error.response.status)
-    }
-)
 
 export const post = (url: string, params?: Record<string, any>, token = '') => {
     return client.post(url, params, {

@@ -3,14 +3,22 @@ import { useFormik } from "formik";
 import * as yup from 'yup'
 import CustomInput from "../input/text-field";
 import CustomButton from "../input/custom-button";
-import { post } from "@/api/api-service";
-import { useDispatch } from "react-redux";
-import { setToken } from "@/redux/slices/token.slice";
+import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { loginThunk } from "@/redux/thunks/login.thunk";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { RootState } from "@/redux/store";
 
 export default function LoginForm() {
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>()
+    const router = useRouter()
+    const token = useSelector((state: RootState) => state.token.token)
+    useEffect(() => {
+        if (token) {
+            router.push('/')
+        }
+    }, [token])
     const validationSchema = yup.object({
         email: yup
           .string()
@@ -34,6 +42,7 @@ export default function LoginForm() {
     })
 
     return (<>
+    <div className="p-3 rounded-sm border-2 border-slate-300 border-solid">   
         <form onSubmit={formik.handleSubmit} className="w-full flex flex-col gap-3 justify-center items-center">
             <Typography variant="h6" component={'h6'} className="text-lg">
                 ĐĂNG NHẬP TÀI KHOẢN
@@ -51,5 +60,7 @@ export default function LoginForm() {
             <span className="text-xs">Khách hàng mới? <a href="/signup"> Tạo tài khoản</a></span>
             <span className="text-xs">Quên mật khẩu? <a href="#">Khôi phục mật khẩu</a> </span>
         </form>
+    </div>
+        
     </>)
 }
