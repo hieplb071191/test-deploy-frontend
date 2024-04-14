@@ -1,5 +1,7 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
+import { FacebookEmbed } from 'react-social-media-embed';
+
 export default function FooterPc () {
     return (
         <section className="sx:hidden xl:block w-full bg-slate-800">
@@ -70,6 +72,9 @@ export default function FooterPc () {
                 </div>
                 <div>
                     <span className="font-sans text-white text-xl">Fanpage</span>
+                    <div className='mt-6'>
+                        <FacebookEmbed url={'https://www.facebook.com/andrewismusic/posts/451971596293956'} width={267} height={150}/>
+                    </div>
                 </div>
             </div>
             

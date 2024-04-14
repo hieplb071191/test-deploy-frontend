@@ -1,12 +1,14 @@
 
-interface CustomDropdownProp {
+export interface CustomDropdownProp {
     title: string,
     children?: Component | any,
-    items: {
-        title: string,
-        value: string,
-    }[],
-    handler: (value: string) => void
+    datas: {
+            title: string,
+            url: string,
+            params?: Record<string , string>
+    }[]
+
+    handler: (url: string, params?: Record<string , string>) => void
     link?: string
 }
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -16,7 +18,7 @@ import style from '../../style/header-style.module.scss'
 
 const CustomDropdown = (prop: CustomDropdownProp) => {
     const [classDisplay, setClassDisplay] = useState<string>('handle-not-display')
-    const { title, items, handler, link, children } = prop
+    const { title, datas, handler, link, children } = prop
 
     return (
         <div className={`w-auto h-full relative flex justify-center items-center font-semibold ${style['parent-display']} ${style['disable']}`}
@@ -40,10 +42,10 @@ const CustomDropdown = (prop: CustomDropdownProp) => {
             
             <ul className={`absolute top-full left-0 z-40 shadow-md bg-white min-w-40 flex-col flex ${style[classDisplay]}`}>
                 {
-                    items.map((item, index) => {
+                    datas.map((item, index) => {
                         return (
-                            <div key={item.value + index}>
-                                <li className={`cursor-pointer font-light px-5 py-2 relative`} onClick={() => handler(item.value)}>
+                            <div key={index}>
+                                <li className={`cursor-pointer font-light px-5 py-2 relative`} onClick={() => handler(item.url, item.params)}>
                                     {item.title}
                                 </li>
                                 <hr className='w-full align-middle h-[1px]' />

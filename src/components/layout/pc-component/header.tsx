@@ -14,7 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { logout } from "@/redux/slices/token.slice";
 import SearchInput from "@/components/input/search-input";
-import CustomDropdown from "@/components/input/custom-dropdown";
+import CustomDropdown, { CustomDropdownProp } from "@/components/input/custom-dropdown";
+import { logginItem, manMenuItemsProps, notLoggedItems, womanMenuItemsProps } from "@/constant/menu.constant";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,24 +32,6 @@ const ManDropdownItem = [
         title: 'Sản phẩm giày',
         value: 'Header1'
     }
-]
-
-const notLoggedItems = [
-    {
-        title: 'Sign In',
-        value: '/login'
-    },
-    {
-        title: 'Sign up',
-        value: '/signup'
-    },
-]
-
-const logginItem = [
-    {
-        title: 'Logout',
-        value: 'logout'
-    },
 ]
 
 export default function HeaderPC () {
@@ -69,8 +52,26 @@ export default function HeaderPC () {
         }
     }, [token])
 
-    const handleClickDropdown = (value: string) => {
-        console.log(value)
+    const createQueryString = (name: string, value: string) => {
+        const params = new URLSearchParams();
+        params.set(name, value);
+    
+        return params.toString();
+    };
+    
+    const handleClickDropdown = (url: string, query?: any) => {
+        let hrefStr = url
+        if (query) {
+            const keyParams = Object.keys(query)
+            keyParams.forEach((item, index) => {
+                if(index === 0) {
+                    hrefStr += `?${createQueryString(item, query[item])}`
+                } else {
+                    hrefStr += `&${createQueryString(item, query[item])}`
+                }
+            })
+        }
+        router.push(hrefStr)
     }
 
     const handleClickLoggin = (value: string) => {
@@ -116,16 +117,16 @@ export default function HeaderPC () {
                 <div className="sx:hidden xl:flex xl:container h-full justify-between items-center">
                     <a href="/" className={`${inter.className} text-3xl text-slate-800 font-bold`}>K&M Style</a>
                     <div className="flex justify-center gap-4 h-full">
-                        <CustomDropdown title={'Trang chủ'} items={[]} handler={handleClickDropdown} link={'/'} />
-                        <CustomDropdown title={'Nam'} items={ManDropdownItem} handler={handleClickDropdown}/>
-                        <CustomDropdown title={'Product view'} items={ManDropdownItem} handler={handleClickDropdown}/>
-                        <CustomDropdown title={'Blog'} items={[]} handler={handleClickDropdown}/>
-                        <CustomDropdown title={'Giới thiệu'} items={[]} handler={handleClickDropdown} />
-                        <CustomDropdown title={'Liên hệ'} items={[]} handler={handleClickDropdown}/>
+                        <CustomDropdown title={'Trang chủ'} datas={[]} handler={handleClickDropdown} link={'/'} />
+                        <CustomDropdown title={'Nam'} datas={manMenuItemsProps as any[]} handler={handleClickDropdown}/>
+                        <CustomDropdown title={'Nữ'} datas={womanMenuItemsProps as any[]} handler={handleClickDropdown}/>
+                        <CustomDropdown title={'Blog'} datas={[]} handler={handleClickDropdown}/>
+                        <CustomDropdown title={'Giới thiệu'} datas={[]} handler={handleClickDropdown} />
+                        <CustomDropdown title={'Liên hệ'} datas={[]} handler={handleClickDropdown}/>
                     </div>
                     <div className="flex justify-center gap-4 h-full items-center">
                         <div className="relative h-full flex justify-center items-center" ref={loginRef}>
-                                <CustomDropdown title=''  items={!isLogged ? notLoggedItems : logginItem} handler={!isLogged ? handleClickLoggin : handleClickWhenLogged}>
+                                <CustomDropdown title=''  datas={!isLogged ? notLoggedItems : logginItem} handler={!isLogged ? handleClickLoggin : handleClickWhenLogged}>
                                     <PeopleAltOutlinedIcon sx={{fontSize: '30px'}} className="cursor-pointer"/>
                                 </CustomDropdown>   
                         </div>
