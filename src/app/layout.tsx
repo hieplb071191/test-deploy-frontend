@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import { persistor, store } from "@/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Suspense } from "react";
+import Footer from "@/components/layout/footer";
+import { FacebookProvider } from "react-facebook";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,13 +19,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+      </head>
         <body className={inter.className}>
           <Suspense fallback={<p>Loading feed...</p>}>
             <Provider store={store}>
               <PersistGate persistor={persistor}>
                 <>
-                  <Header />
-                    {children}
+                  
+                    <Header />
+                      {children}
+                    <Footer />                    
                 </>
               </PersistGate>
             </Provider>  

@@ -4,6 +4,10 @@ import BannerCaurosel from "@/components/caurosel/banner-caurosel";
 import CustomImage from "@/components/image/custom-image";
 import { post, get } from '@/api/api-service'
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import useFetch from "@/hooks/useFetch";
+
 const bannerCauroselProp= [
     {
       image: 'https://theme.hstatic.net/1000406172/1000655826/14/slideshow_1.jpg?v=164',
@@ -22,15 +26,18 @@ const bannerCauroselProp= [
 
 
 export default function Home() {
+  const token = useSelector((state: RootState) => state.token.token)
   const [hotProduct, setHotProduct] = useState<any[]>([])
   console.log(process.env.BACKEND_URL)
   useEffect(() => {
-    get('product-admin/product', {page: 1, perPage: 8}).then(res => {
+    get('product-admin/product', {page: 1, perPage: 8}, token).then(res => {
       console.log(res)
     }).catch(e => {
       console.log(e)
     }) 
   }, [])
+
+  const { loading, data, } = useFetch('product-admin/product', 'GET', {page: 1, perPage: 8}, token, )
 
   return (
     <main >

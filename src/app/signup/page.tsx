@@ -74,6 +74,7 @@ export default function Signup() {
                 <Grid item xs={0} sm={2} md={3} lg={4}></Grid>
                 <Grid item  xs={12} sm={8} md={6} lg={4}>
                     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
+                        <span className="text-2xl mt-4 font-sans font-medium mx-auto">Sign Up</span>
                         <CustomInput name={"firstName"} formik={formik} label={"First Name"} placeholder={""}  />
                         <CustomInput name={"lastName"} formik={formik} label={"Last Name"} placeholder={""}  />
                         <CustomRadioButton dataRadio={[{value: 'male', label: 'Male'}, {value: 'female', label: 'Female'}]} formik={formik} label={"Gender"} name={"gender"} />
