@@ -1,9 +1,8 @@
 const manMenuItemsProps = [
     {
-        title: 'Xem tất cả "Nam',
+        title: 'Xem tất cả',
         url: 'product',
         params: {
-            topic: 'Man',
             page: '1',
             perPage: '8',
         }
@@ -12,7 +11,7 @@ const manMenuItemsProps = [
         title: '- Túi xách',
         url: 'product',
         params: {
-            topic: 'Man',
+
             type: 'handBag',
             page: '1',
             perPage: '8',
@@ -22,7 +21,6 @@ const manMenuItemsProps = [
         title: '- Giày',
         url: 'product',
         params: {
-            topic: 'Man',
             type: 'shoes',
             page: '1',
             perPage: '8',
@@ -32,7 +30,6 @@ const manMenuItemsProps = [
         title: '- Quần áo',
         url: 'product',
         params: {
-            topic: 'Man',
             type: 'clothes',
             page: '1',
             perPage: '8',
@@ -40,47 +37,6 @@ const manMenuItemsProps = [
     },
 ]
 
-const womanMenuItemsProps = [
-    {
-        title: 'Xem tất cả "Nữ',
-        url: 'product',
-        params: {
-            topic: 'Man',
-            page: '1',
-            perPage: '8',
-        }
-    },
-    {
-        title: '- Túi xách',
-        url: 'product',
-        params: {
-            topic: 'woman',
-            type: 'handBag',
-            page: '1',
-            perPage: '8',
-        }
-    },
-    {
-        title: '- Giày',
-        url: 'product',
-        params: {
-            topic: 'woman',
-            type: 'shoes',
-            page: '1',
-            perPage: '8',
-        }
-    },
-    {
-        title: '- Quần áo',
-        url: 'product',
-        params: {
-            topic: 'woman',
-            type: 'clothes',
-            page: '1',
-            perPage: '8',
-        }
-    },
-]
 
 const notLoggedItems = [
     {
@@ -100,4 +56,4 @@ const logginItem = [
     },
 ]
 
-export { manMenuItemsProps, womanMenuItemsProps, notLoggedItems, logginItem}
+export { manMenuItemsProps, notLoggedItems, logginItem}

@@ -2,7 +2,9 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { manMenuItemsProps, womanMenuItemsProps } from '@/constant/menu.constant';
+import { manMenuItemsProps } from '@/constant/menu.constant';
+import { useDispatch } from 'react-redux';
+import { setQuery } from '@/redux/slices/product-query.slice';
 
 
 type ChildMenuProps = {
@@ -53,25 +55,12 @@ export default function Menu({handleClose}: {
 }) {
     const [childMenuItems, setChildMenuItems] = useState<any[]>([])
     const router = useRouter()
-    const createQueryString = (name: string, value: string) => {
-        const params = new URLSearchParams();
-        params.set(name, value);
-    
-        return params.toString();
-    };
+    const dispatch = useDispatch()
 
-
-    const handleRedirect = (url: string, query?: any) => {
+    const handleRedirect = (url: string, query?: Record<string, any>) => {
         let hrefStr = url
         if (query) {
-            const keyParams = Object.keys(query)
-            keyParams.forEach((item, index) => {
-                if(index === 0) {
-                    hrefStr += `?${createQueryString(item, query[item])}`
-                } else {
-                    hrefStr += `&${createQueryString(item, query[item])}`
-                }
-            })
+            dispatch(setQuery(query))
         }
         router.push(hrefStr)
         handleClose('')
@@ -88,15 +77,7 @@ export default function Menu({handleClose}: {
             <div className="px-4">
                 <div className="border-b-[1px] border-solid border-zinc-300 w-full py-3 flex flex-row justify-between items-center cursor-pointer" onClick={() => setChildMenuItems(manMenuItemsProps)}>
                     <span className="text-lg font-medium text-gray-900 font-sans">
-                        NAM
-                    </span>
-                    <KeyboardArrowRightIcon fontSize='small' />
-                </div>
-            </div>
-            <div className="px-4">
-                <div className="border-b-[1px] border-solid border-zinc-300 w-full py-3 flex flex-row justify-between items-center cursor-pointer" onClick={() => setChildMenuItems(womanMenuItemsProps)}>
-                    <span className="text-lg font-medium text-gray-900 font-sans">
-                        NỮ
+                        SẢN PHẨM
                     </span>
                     <KeyboardArrowRightIcon fontSize='small' />
                 </div>

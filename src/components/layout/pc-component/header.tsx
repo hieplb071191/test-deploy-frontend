@@ -15,24 +15,11 @@ import { useRouter } from "next/navigation";
 import { logout } from "@/redux/slices/token.slice";
 import SearchInput from "@/components/input/search-input";
 import CustomDropdown, { CustomDropdownProp } from "@/components/input/custom-dropdown";
-import { logginItem, manMenuItemsProps, notLoggedItems, womanMenuItemsProps } from "@/constant/menu.constant";
+import { logginItem, manMenuItemsProps, notLoggedItems } from "@/constant/menu.constant";
+import { setQuery } from "@/redux/slices/product-query.slice";
 
 const inter = Inter({ subsets: ['latin'] })
 
-const ManDropdownItem = [
-    {
-        title: 'Túi xách',
-        value: 'Header1'
-    },
-    {
-        title: 'Sản phẩm nam',
-        value: 'Header1'
-    },
-    {
-        title: 'Sản phẩm giày',
-        value: 'Header1'
-    }
-]
 
 export default function HeaderPC () {
     const loginRef = useRef(null)
@@ -62,14 +49,7 @@ export default function HeaderPC () {
     const handleClickDropdown = (url: string, query?: any) => {
         let hrefStr = url
         if (query) {
-            const keyParams = Object.keys(query)
-            keyParams.forEach((item, index) => {
-                if(index === 0) {
-                    hrefStr += `?${createQueryString(item, query[item])}`
-                } else {
-                    hrefStr += `&${createQueryString(item, query[item])}`
-                }
-            })
+            dispatch(setQuery(query))
         }
         router.push(hrefStr)
     }
@@ -116,10 +96,9 @@ export default function HeaderPC () {
             <section className="bg-white w-full h-20 flex justify-center">
                 <div className="sx:hidden xl:flex xl:container h-full justify-between items-center">
                     <a href="/" className={`${inter.className} text-3xl text-slate-800 font-bold`}>K&M Style</a>
-                    <div className="flex justify-center gap-4 h-full">
+                    <div className="flex justify-center gap-8 h-full">
                         <CustomDropdown title={'Trang chủ'} datas={[]} handler={handleClickDropdown} link={'/'} />
-                        <CustomDropdown title={'Nam'} datas={manMenuItemsProps as any[]} handler={handleClickDropdown}/>
-                        <CustomDropdown title={'Nữ'} datas={womanMenuItemsProps as any[]} handler={handleClickDropdown}/>
+                        <CustomDropdown title={'Sản phẩm'} datas={manMenuItemsProps as any[]} handler={handleClickDropdown}/>
                         <CustomDropdown title={'Blog'} datas={[]} handler={handleClickDropdown}/>
                         <CustomDropdown title={'Giới thiệu'} datas={[]} handler={handleClickDropdown} />
                         <CustomDropdown title={'Liên hệ'} datas={[]} handler={handleClickDropdown}/>
