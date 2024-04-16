@@ -30,7 +30,7 @@ export default function Home() {
   const [hotProduct, setHotProduct] = useState<any[]>([])
   console.log(process.env.BACKEND_URL)
   useEffect(() => {
-    get('product-admin/product', {page: 1, perPage: 8}, token).then(res => {
+    get('product-public/product', {page: 1, perPage: 8}, token).then(res => {
       console.log(res)
     }).catch(e => {
       console.log(e)

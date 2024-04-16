@@ -8,7 +8,7 @@ export type CartItemProps = {
     price: number,
     discount?: any,
     id: string,
-    quantity: number,
+    quantity?: number,
     name: string,
     imageHover: string
 }
@@ -28,19 +28,19 @@ const CartItem = ({
         if (discount.type === 'percent') {
             return price - (price * discount.value / 100)
         } else {
-            return price - discount
+            return price - discount.value
         }
     }, [price, discount])
     const [isHoverImage, setHoverImage] = useState(false)
     const [activeImage, setActiveImage] = useState(listImage[0])
     return (
         <div className="flex flex-col justify-start items-start mx-3 gap-3">
-            <div className="w-full cursor-pointer relative" onMouseEnter={() => setHoverImage(true)} onMouseLeave={() => setHoverImage(false)}>
+            <div className="w-full cursor-pointer relative max-h-96" onMouseEnter={() => setHoverImage(true)} onMouseLeave={() => setHoverImage(false)}>
                 {
                     isHoverImage ? 
-                        (<img src={imageHover} alt="" className="w-full"/> ) 
+                        (<img src={imageHover} alt="" className="object-contains w-full h-full"/> ) 
                         : 
-                        (<img src={activeImage} alt="" className="w-full"/> )
+                        (<img src={activeImage} alt="" className="object-contains w-full h-full"/> )
                 }
                 {
                     isHoverImage ? (
@@ -59,18 +59,18 @@ const CartItem = ({
                     {discountPrice.toLocaleString("en-US")}đ
                 </span>
                 {
-                    discount.value && (
+                    discount.value ? (
                         <span className="text-base font-semibold font-sans text-gray-500 line-through">
                             {price.toLocaleString()}đ
                         </span>
-                    )
+                    ) : (<></>)
                 }
             </span>
             <div className="flex justify-start gap-3">
                 {
                     listImage.map((item, index) => {
                         return (
-                            <div className="w-5 h-5 overflow-hidden hover:border-solid hover:border-2 hover:border-indigo-600 " key={index} style={{borderRadius: "50%"}} onMouseEnter={() => setActiveImage(item)}>
+                            <div className="w-5 h-5 overflow-hidden hover:border-solid hover:border-2 hover:border-indigo-600" key={index} style={{borderRadius: "50%"}} onMouseEnter={() => setActiveImage(item)}>
                                 <img src={item} alt="" className="object-contains w-full h-full"/>
                             </div>
                         )
