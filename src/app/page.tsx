@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import useFetch from "@/hooks/useFetch";
+import convertdataProduct from "@/utils/convert-data-product.util";
 
 const bannerCauroselProp= [
     {
@@ -31,13 +32,15 @@ export default function Home() {
   console.log(process.env.BACKEND_URL)
   useEffect(() => {
     get('product-public/product', {page: 1, perPage: 8}, token).then(res => {
-      console.log(res)
+      console.log('res', res.data.rows)
+      if (res.data?.rows?.length) {
+        setHotProduct(convertdataProduct(res.data.rows))
+      }
     }).catch(e => {
       console.log(e)
     }) 
   }, [])
 
-  const { loading, data, } = useFetch('product-admin/product', 'GET', {page: 1, perPage: 8}, token, )
 
   return (
     <main >
@@ -74,24 +77,19 @@ export default function Home() {
               Cập nhật những sản phẩm mới nhật
             </span>
         </div>
-        <div className="grid sx:grid-cols-2 xl:grid-cols-4 mt-4 mb-4">
-          <CartItem 
-            listImage={[
-              'https://product.hstatic.net/1000406172/product/623_800x_8af64c9947ba42a2a80d2b8ed67d01d4_large.jpg',
-              'https://product.hstatic.net/1000406172/product/1000_800x_1e2c9c812a33429eab8daf93967506b5_large.jpg',
-              'https://product.hstatic.net/1000406172/product/1005_800x_5326680ba7894290bc556e7b1c4e2d04_large.jpg',
-
-            ]} 
-            price={350000} 
-            id={"asnda-fsadf-423-vxcgvxc"} 
-            quantity={10} 
-            name={"Áo thun len tay dài KM4"}
-            discount={{
-              type: 'percent',
-              value: 15
-            }}
-            imageHover={'https://product.hstatic.net/1000406172/product/620_800x_b4eacb4c96924d26b1b6e24008d9005c_large.jpg'}
-          />
+        <div className="grid sx:grid-cols-1 2sx:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mt-4 mb-4">
+          {
+            hotProduct.map((item,index) => (
+              <CartItem 
+                listImage={item.listImage} 
+                price={item.price} 
+                id={item._id} 
+                name={item.name} 
+                imageHover={item.imageHover} 
+                key={index}
+              />
+            ))
+          }
         </div>
       </section>
     </main>

@@ -35,7 +35,7 @@ const CartItem = ({
     const [activeImage, setActiveImage] = useState(listImage[0])
     return (
         <div className="flex flex-col justify-start items-start mx-3 gap-3">
-            <div className="w-full cursor-pointer relative max-h-96" onMouseEnter={() => setHoverImage(true)} onMouseLeave={() => setHoverImage(false)}>
+            <div className="w-full cursor-pointer relative h-96" onMouseEnter={() => setHoverImage(true)} onMouseLeave={() => setHoverImage(false)}>
                 {
                     isHoverImage ? 
                         (<img src={imageHover} alt="" className="object-contains w-full h-full"/> ) 

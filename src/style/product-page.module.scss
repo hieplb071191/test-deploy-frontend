@@ -1,0 +1,36 @@
+
+@keyframes display-filter-menu {
+    0% {
+        left: -288px;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes hidden-filter-menu {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: -288px;
+    }
+}
+
+.menu-annimation {
+    position: fixed;
+    width: 288px;
+    min-height: 100lvh;
+    top: 0;
+    left: 0;
+    animation: display-filter-menu .5s;
+}
+
+.hidden-menu-annimation {
+    position: fixed;
+    width: 288px;
+    min-height: 100lvh;
+    top: 0;
+    left: -288px;
+    animation: hidden-filter-menu .5s;
+}
