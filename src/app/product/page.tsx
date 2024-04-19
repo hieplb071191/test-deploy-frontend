@@ -13,6 +13,7 @@ import style from '@/style/product-page.module.scss'
 import clsx from 'clsx'
 import { ProductFilter } from "@/components/product/product-filter"
 import ClearIcon from '@mui/icons-material/Clear';
+import ProductSort from "@/components/product/product-sort"
 
 
 export default function Production() {
@@ -50,9 +51,7 @@ export default function Production() {
     useClickOutside(filterRef, (event: any) => {
         const parentNode = event.target.parentNode
         const nodeData = event.target
-        console.log(parentNode.id)
-        console.log(nodeData.id)
-        if (parentNode.id !== 'click-togger-product-filter' && nodeData.id !== 'click-togger-product-filter' ) {
+        if (parentNode?.id !== 'click-togger-product-filter' && nodeData?.id !== 'click-togger-product-filter' ) {
             setShowfilter(false)
         }
     })
@@ -70,7 +69,7 @@ export default function Production() {
                 <img src="https://file.hstatic.net/1000406172/collection/col3_05e1425980eb4115856379d068f125cb.jpg" alt="image_banner_product" />
             </div>
             <section className="sx:w-full xl:container mx-auto">
-                <div className="sx:hidden xl:flex xl:container  justify-between items-center my-5 mx-auto">
+                <div className="sx:hidden lg:flex xl:flex lg:container  justify-between items-center my-5 mx-auto">
                     <span className="font-normal text-gray-500 text-base cursor-pointer" 
                         onClick={(event) => {
                             event.preventDefault()
@@ -85,8 +84,28 @@ export default function Production() {
                         Sản phẩm
                     </span>
                     <span>
-                        Sort
+                       <ProductSort />
                     </span>
+                </div>
+                <div className="sx:flex lg:hidden flex-col items-center">
+                    <span className="text-2xl font-bold font-sans text-gray-500">
+                        Sản phẩm
+                    </span>
+                    <div className="flex justify-between w-full p-4">
+                        <span className="font-normal text-gray-500 text-base cursor-pointer" 
+                            onClick={(event) => {
+                                event.preventDefault()
+                                setShowfilter(!showFilter)
+                            }}
+                            id='click-togger-product-filter'
+                        >
+                            <TuneIcon className="text-sm text-gray-500"/> Bộ lọc 
+                
+                        </span>
+                        <span>
+                            <ProductSort />
+                        </span>
+                    </div>
                 </div>
                 <div className="grid sx:grid-cols-1 2sx:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mt-4 mb-4">
                     {
