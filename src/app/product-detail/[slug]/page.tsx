@@ -1,14 +1,10 @@
-import { get } from "@/api/api-service"
+'use client';
+import { useParams  } from 'next/navigation'
 
-export async function generateStaticParams() {
-    const result = await get('/product-public/product') 
-    const products = result.data?.rows || []
-    return products.map((product: any) => ({
-        slug: product._id,
-      }))
-}
 
-export default function Page ({ params }: { params: { slug: string } }) {
+export default function ProductDetailPage () {
+    const  params  = useParams()
+    console.log(params)
     return (
         <div>
             ProductDetail
