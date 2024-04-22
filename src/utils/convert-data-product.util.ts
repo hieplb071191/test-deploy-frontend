@@ -8,9 +8,11 @@ export default function convertdataProduct (products: any[]) {
             price: item.productDetails.length ? 
                     item.productDetails[0].price : 0,
             listImage: item.productDetails.length ? item.productDetails.reduce((acc: string[], cur: any) => {
-                return [...acc, ...cur.imageUrls]
+                return [...acc, cur.imageUrls[0]]
             }, []) : [],
-            imageHover: item.imageUrls[0]
+            imageHover: item.imageUrls[0],
+            id: item._id,
+            discount: item.productDetails?.length && item.productDetails[0].discount ? item.productDetails[0].discount : null
         }
     
         return resData

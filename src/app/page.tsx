@@ -77,16 +77,17 @@ export default function Home() {
               Cập nhật những sản phẩm mới nhật
             </span>
         </div>
-        <div className="grid sx:grid-cols-1 2sx:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mt-4 mb-4">
+        <div className="grid sx:grid-cols-1 2sx:grid-cols-2 md:grid-cols-3 xl:grid-cols-4  mt-4 mb-4">
           {
             hotProduct.map((item,index) => (
               <CartItem 
                 listImage={item.listImage} 
                 price={item.price} 
-                id={item._id} 
+                id={item.id} 
                 name={item.name} 
                 imageHover={item.imageHover} 
                 key={index}
+                discount={item.discount}
               />
             ))
           }

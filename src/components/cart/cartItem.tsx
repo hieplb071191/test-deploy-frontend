@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react"
 import style from '../../style/cart-item.module.scss'
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import { useRouter } from "next/navigation";
 
 export type CartItemProps = {
     listImage: string[],
@@ -16,8 +17,8 @@ export type CartItemProps = {
 const CartItem = ({ 
     listImage, price, 
     discount = {
-        type: 'number',
-        value: 0
+        discountType: 'number',
+        discountValue: 0
     }, 
     id, 
     quantity, 
@@ -25,23 +26,27 @@ const CartItem = ({
     imageHover 
 }: CartItemProps) => {
     const discountPrice = useMemo(() => {
-        if (discount.type === 'percent') {
-            return price - (price * discount.value / 100)
+        if (discount.discountType === 'percent') {
+            return price - (price * discount.discountValue / 100)
         } else {
-            return price - discount.value
+            return price - discount.discountValue
         }
     }, [price, discount])
     const [isHoverImage, setHoverImage] = useState(false)
     const [activeImage, setActiveImage] = useState(listImage[0])
+    const router = useRouter()
     return (
         <div className="flex flex-col justify-start items-start mx-3 gap-3">
             <div className="w-full cursor-pointer relative h-96" onMouseEnter={() => setHoverImage(true)} onMouseLeave={() => setHoverImage(false)}>
-                {
-                    isHoverImage ? 
-                        (<img src={imageHover} alt="" className="object-contains w-full h-full"/> ) 
-                        : 
-                        (<img src={activeImage} alt="" className="object-contains w-full h-full"/> )
-                }
+                <div className="w-full h-full" onClick={() => router.replace(`product-detail?productId=${id}`)}>
+                    {
+                        isHoverImage ? 
+                            (<img src={imageHover} alt="" className="object-contains w-full h-full"/> ) 
+                            : 
+                            (<img src={activeImage} alt="" className="object-contains w-full h-full"/> )
+                    }
+                </div>
+                
                 {
                     isHoverImage ? (
                         <div className={`absolute ${style['hover-display-item']} flex justify-center items-center`}>
@@ -55,11 +60,11 @@ const CartItem = ({
                 {name}
             </span>
             <span className="text-base font-semibold font-sans flex justify-start gap-5">
-                <span className={discount.value ? `text-rose-600` : `text-black`}>
+                <span className={discount.discountValue ? `text-rose-600` : `text-black`}>
                     {discountPrice.toLocaleString("en-US")}đ
                 </span>
                 {
-                    discount.value ? (
+                    discount.discountValue ? (
                         <span className="text-base font-semibold font-sans text-gray-500 line-through">
                             {price.toLocaleString()}đ
                         </span>

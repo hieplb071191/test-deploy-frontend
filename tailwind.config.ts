@@ -18,6 +18,15 @@ const config: Config = {
           '0%': { heigh: "0" },
           '100%': { heigh: '100%' }
         }
+      },
+      container: {
+       screens: {
+        sm: '600px',
+        md: '728px',
+        lg: '984px',
+        xl: '1280px',
+        '2xl': '1360px',
+       }
       }
     },
     screens: {
