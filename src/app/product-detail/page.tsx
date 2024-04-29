@@ -10,6 +10,8 @@ import CartQuantityItem from "@/components/input/cart-quantity-item"
 import { useFormik } from "formik"
 import { useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
+import style from '@/style/product-detail.module.scss'
+import ProductDetailPolicy from "@/components/product-detail/policy"
 
 export default function ProductDetail() {
 
@@ -129,17 +131,17 @@ export default function ProductDetail() {
     return (
         <section className="flex container mx-auto">
             <div className="sx:w-full xl:w-[1190px] flex sx:flex-col xl:flex-row justify-start gap-4 mx-auto">
-                <div className="w-[55%] sx:hidden xl:grid grid-cols-2">
+                <ul className="w-[55%] sx:hidden xl:grid grid-cols-2 h-fit">
                     {
                         productData?.imageUrls?.length && productData.imageUrls.map((item: any, index: number) => {
                             return (
-                                <div key={index} className="p-3 w-full h-96">
+                                <li key={index} className="p-2 w-full h-96">
                                     <img src={item} alt={item} className="object-cover w-full h-full"/>
-                                </div>        
+                                </li>        
                             )
                         })
                     }
-                </div>
+                </ul>
                 <div className="sx:flex xl:hidden">
                     <BannerCaurosel datas={productData?.imageUrls?.map((item: string) => ({image: item})) ?? []} propId={""} />
                 </div>
@@ -224,9 +226,12 @@ export default function ProductDetail() {
                                             maxProduct={displayProductDetail.quantity}
                                         />
                                         <div className="sx:w-full xl:w-2/3">
-                                            <button className="w-full h-[60px] rounded-sm bg-red-600 text-white font-bold" type="submit">Thêm vào giỏ</button>
+                                            <button className={clsx("w-full h-[60px] rounded-s text-white font-bold", style['background-button'])} type="submit">THÊM VÀO GIỎ</button>
                                         </div>
                                     </form>
+                                </div>
+                                <div className="mt-10 w-full">
+                                    <ProductDetailPolicy size={listSize} color={listColor} description={displayProductDetail?.description}/>
                                 </div>
                             </div>
                         </div>

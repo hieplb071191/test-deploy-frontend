@@ -1,0 +1,23 @@
+.background-button {
+    background: #D61114;
+    background: linear-gradient(to left, #D61114 50%, white 50%) right;
+    background-size: 200%;
+    transition: .5s ease-out;
+    &:hover {
+        background-position: left;
+        color: gray;
+        border: 2px solid #D61114;
+    }
+}
+
+.border-under {
+    border-bottom: gray 2px solid;
+}
+
+.hr {
+    border-bottom: #e6e6e6 2px solid    
+}
+
+.el-hr {
+    border-top: gray 2px solid    
+}
