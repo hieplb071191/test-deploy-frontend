@@ -1,10 +1,15 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { get } from "@/api/api-service"
 import { toast } from "react-toastify"
 import clsx from 'clsx'
+import BannerCaurosel from "@/components/caurosel/banner-caurosel"
+import CartQuantityItem from "@/components/input/cart-quantity-item"
+import { useFormik } from "formik"
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
 
 export default function ProductDetail() {
 
@@ -13,27 +18,69 @@ export default function ProductDetail() {
     const [productData, setProductData ] = useState<any>({})
     const [productDetails, setProductDetails] = useState<any[]>([])
     const [displayProductDetail, setDisplayProductDetail] = useState<any>({})
-    const [displayPrice, setDisplayPrice] = useState<number>(0)
-    const [listImages, setListImages] = useState<any[]>([])
+    const [displayPrice, setDisplayPrice] = useState<number | null>(null)
+    const [listColor, setListColor] = useState<string[]>([])
+    const [listSize, setlistSize] = useState<string[]>([])
+    const [currentParamDetail, setCurrentParamDetail] = useState<Record<string, string>>({})
+    const token = useSelector((state: RootState) => state.token.token)
+    const router = useRouter()
 
     useEffect(() => {
         setProductId(searchParams.get('productId'))
     }, [searchParams])
 
     useEffect(() => {
-        get(`/product-public/get-one-product/${productId}`).then(res => {
-            console.log('resData detail', res.data)
-            setProductData(res.data)
-            setProductDetails(prev => {
-                return res.data?.productDetails ? res.data?.productDetails : prev
+        if (productId) {
+            get(`/product-public/get-one-product/${productId}`).then(res => {
+                console.log('resData detail', res.data)
+                setProductData(res.data)
+                setProductDetails(prev => {
+                    return res.data?.productDetails ? res.data?.productDetails : prev
+                })
+                setDisplayProductDetail((prev: any) => {
+                    return res.data?.productDetails ? res.data?.productDetails[0] : prev
+                })
+                setCurrentParamDetail(prev => {
+                    return {
+                        color: res.data?.productDetails[0].color,
+                        size: res.data?.productDetails[0].size,
+                    }
+                })
+            }).catch(e => {
+                toast.error(e.message)
             })
-            setDisplayProductDetail((prev: any) => {
-                return res.data?.productDetails ? res.data?.productDetails[0] : prev
-            })
-        }).catch(e => {
-            toast.error(e.message)
-        })
+        }
+        
     }, [productId])
+
+    const handleSetParamDetail = (param: Record<string, string>) => {
+        setCurrentParamDetail(prev => {
+            return {
+                ...prev,
+                ...param
+            }
+        })
+    }
+
+    useEffect(() => {
+        if (currentParamDetail.color && currentParamDetail.size) {
+            get(`/product-public/product-detail-by-info/${productId}`, {
+                size: currentParamDetail.size,
+                color: currentParamDetail.color
+            }).then(res => {
+                if(res.data) {
+                    setDisplayProductDetail(res.data)
+                    setDisplayPrice(res.data.price)
+                } else {
+                    setDisplayPrice(null)
+                    toast.error('productDetail not existed')
+                }
+  
+            }).catch(e => {
+                toast.error(e.message)
+            })
+        }
+    }, [currentParamDetail, productId])
 
     useEffect(() => {
         if (displayProductDetail.price) {
@@ -52,20 +99,37 @@ export default function ProductDetail() {
             }
         }
         if (productDetails.length) {
-            const listImages = productDetails.map(item => {
-                return {
-                    id: item._id,
-                    image: item.imageUrls[0]
-                }
+            let listImages: any = productDetails.map(item => {
+                return item.color
             })
-            setListImages(listImages)
+            listImages = new Set(listImages)
+            setListColor([...listImages])
+
+            let listSizes: any = productDetails.map(item => {
+                return item.size
+            })
+            listSizes = new Set(listSizes)
+            setlistSize([...listSizes])
         }
     }, [displayProductDetail, productDetails])
 
+    const formik = useFormik({
+        initialValues: {
+            quantity: 0
+        },
+        onSubmit: (value) => {
+            if (!token) {
+                toast.error('please login!!!')
+                router.replace('/login')
+            }
+            console.log(value)
+        }
+    })
+
     return (
-        <section className="sx:hidden xl:flex container mx-auto">
-            <div className="w-[1190px] flex justify-start gap-4 mx-auto">
-                <div className="w-[55%] grid grid-cols-2">
+        <section className="flex container mx-auto">
+            <div className="sx:w-full xl:w-[1190px] flex sx:flex-col xl:flex-row justify-start gap-4 mx-auto">
+                <div className="w-[55%] sx:hidden xl:grid grid-cols-2">
                     {
                         productData?.imageUrls?.length && productData.imageUrls.map((item: any, index: number) => {
                             return (
@@ -76,39 +140,94 @@ export default function ProductDetail() {
                         })
                     }
                 </div>
-                <div className="flex flex-col w-[45%]">
-                    <div className="flex flex-col gap-3 justify-start items-start p-3">
-                        <span className="text-gray-900 font-semibold font-sans text-xl capitalize">
-                            {productData.name}
-                        </span>
-                        <span className="text-gray-400 font-normal text-sm capitalize">
-                            SKU: {productData.productCode}
-                        </span>
-                        <hr style={{borderTop: '1px solid gray', width: '100%'}}/>
-                    </div>
-                    <div>
-                        <div className="flex justify-start gap-3 px-3">
-                            <div className="py-3 text-center">
-                                <div className="text-xl text-red-500 font-semibold font-sans">
-                                    {displayPrice.toLocaleString()}đ
+                <div className="sx:flex xl:hidden">
+                    <BannerCaurosel datas={productData?.imageUrls?.map((item: string) => ({image: item})) ?? []} propId={""} />
+                </div>
+                <div className="sx:w-full xl:w-[45%]">
+                    <div className="w-full flex flex-col py-4">
+                        <div className="flex flex-col gap-3 justify-start items-start p-3">
+                            <span className="text-gray-900 font-semibold font-sans text-xl capitalize">
+                                {productData.name}
+                            </span>
+                            <span className="text-gray-400 font-normal text-sm capitalize">
+                                SKU: {productData.productCode}
+                            </span>
+                            <hr style={{borderTop: '1px solid gray', width: '100%'}}/>
+                        </div>
+                        <div>
+                            <div className="flex justify-start gap-3 px-3">
+                                <div className="py-3 text-center">
+                                    <div className="text-xl text-red-500 font-semibold font-sans">
+                                        {displayPrice?.toLocaleString()}đ
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex flex-col gap-2 px-3">
-                            <span  className="text-lg font-semibold font-sans">
-                                Màu Sắc
-                            </span>
-                            <div className="flex flex-row gap-3">
+                            <div className="flex flex-col gap-2 px-3">
+                                <span  className="text-lg font-semibold font-sans">
+                                    Màu Sắc
+                                </span>
+                                <div className="flex flex-row gap-3">
+                                    {
+                                        listColor.map((item, index) => {
+                                            return (
+                                                <div 
+                                                    key={index} 
+                                                    className={
+                                                        clsx(
+                                                            "overflow-hidden w-6 h-6 rounded-xl", 
+                                                            currentParamDetail.color === item ?
+                                                            'border-solid border-gray-950  border-2' :
+                                                            ''
+                                                        )
+                                                    }
+                                                    style={{backgroundColor: `${item}`}}
+                                                    onClick={() => handleSetParamDetail({color: item})}
+                                                >
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                                <span  className="text-lg font-semibold font-sans mt-10">
+                                    Kích thước
+                                </span>
+                                <div className="flex flex-row gap-3">
                                 {
-                                    listImages.map((item, index) => {
-                                        return (
-                                            <div key={index} className={clsx("overflow-hidden w-6 h-6 rounded-xl", displayProductDetail._id === item.id ? 'border-solid border-green-500  border-2' : '')} >
-                                                <img src={item.image} className="object-cover w-full h-full"/>
+                                        listSize.map((item, index) => {
+                                            return (
+                                                <div className="flex flex-row gap-1 items-center" key={index} onClick={() => handleSetParamDetail({size: item})}>
+                                                    <div className={
+                                                        clsx(
+                                                            "w-4 h-4 rounded-lg border-solid border-gray-300 border-2",
+                                                            currentParamDetail.size === item ?
+                                                            'bg-slate-500': 
+                                                            ''
+                                                        )
+                                                    }>
                                                 
-                                            </div>
-                                        )
-                                    })
-                                }
+                                                    </div>
+                                                    <span className="font-bold">
+                                                        {item}
+                                                    </span>
+                                                </div>    
+                                            )
+                                        })
+                                    }
+                                </div>
+                                <div className="mt-10">
+                                    <form onSubmit={formik.handleSubmit} className="flex sx:flex-col xl:flex-row gap-3">
+                                        <CartQuantityItem 
+                                            name={"quantity"} 
+                                            formik={formik} 
+                                            label={""} 
+                                            placeholder={""}
+                                            maxProduct={displayProductDetail.quantity}
+                                        />
+                                        <div className="sx:w-full xl:w-2/3">
+                                            <button className="w-full h-[60px] rounded-sm bg-red-600 text-white font-bold" type="submit">Thêm vào giỏ</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from 'clsx'
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { setQuery } from "@/redux/slices/product-query.slice";
 import style from '@/style/product-filter.module.scss'
 

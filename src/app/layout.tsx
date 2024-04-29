@@ -9,6 +9,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Suspense } from "react";
 import Footer from "@/components/layout/footer";
 import { FacebookProvider } from "react-facebook";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +31,7 @@ export default function RootLayout({
                   
                     <Header />
                       {children}
+                      <ToastContainer />
                     <Footer />                    
                 </>
               </PersistGate>
