@@ -9,6 +9,7 @@ import { RootState } from "@/redux/store";
 import useFetch from "@/hooks/useFetch";
 import convertdataProduct from "@/utils/convert-data-product.util";
 import AnnimationImage from "@/components/image/annimation-image";
+import NewsItem from "@/components/news/news-item";
 
 const bannerCauroselProp= [
     {
@@ -30,7 +31,7 @@ const bannerCauroselProp= [
 export default function Home() {
   const token = useSelector((state: RootState) => state.token.token)
   const [hotProduct, setHotProduct] = useState<any[]>([])
-  const [newsHotProduct, setNewsHotProduct] = useState<any[]>([])
+  const [newHotProduct, setNewsHotProduct] = useState<any[]>([])
   console.log(process.env.BACKEND_URL)
   useEffect(() => {
     get('product-public/product', {page: 1, perPage: 8}, token).then(res => {
@@ -39,11 +40,6 @@ export default function Home() {
         setHotProduct(convertdataProduct(res.data.rows))
         setNewsHotProduct(prev => {
           return [
-            ...convertdataProduct(res.data.rows),
-            ...convertdataProduct(res.data.rows),
-            ...convertdataProduct(res.data.rows),
-            ...convertdataProduct(res.data.rows),
-            ...convertdataProduct(res.data.rows),
             ...convertdataProduct(res.data.rows),
           ]
         })
@@ -129,7 +125,7 @@ export default function Home() {
         <div className="sx:w-full xl:container overflow-x-auto mx-auto p-3">
           <div className="sx:w-[1360px] xl:w-full grid grid-cols-4  mt-4 mb-4">
             {
-              newsHotProduct.map((item,index) => (
+              newHotProduct.map((item,index) => (
                 <CartItem 
                   listImage={item.listImage} 
                   price={item.price} 
@@ -144,8 +140,23 @@ export default function Home() {
             }
           </div>
         </div>
+        <div className="w-full flex flex-col justify-center items-center gap-4 p-3">
+          <div className="w-full flex flex-col justify-center items-center gap-2">
+            <span className="font-semibold text-3xl font-sans">
+              Tin tức
+            </span>
+            <span className="font-light text-base font-sans">
+              Cập nhật tin tức mới nhất
+            </span>
+          </div>
+          
+          <div className="sx:w-full xl:container grid sx:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+              <NewsItem title={"Muốn sexy, hãy học cách chinh phục short jeans!"} lstContent={"Ai bảo cứ phải bikini mới là tuyệt đỉnh của mùa hè? Short jeans có khi còn làm tốt hơn"} imageTheme={"https://file.hstatic.net/1000406172/article/123_9bc2ca2b53b74948b193fb16698e9c38_large.png"} id={"fasdf-fasdf-fasdf-fdfv"}  />
+              <NewsItem title={"Muốn sexy, hãy học cách chinh phục short jeans!"} lstContent={"Ai bảo cứ phải bikini mới là tuyệt đỉnh của mùa hè? Short jeans có khi còn làm tốt hơn"} imageTheme={"https://file.hstatic.net/1000406172/article/123_9bc2ca2b53b74948b193fb16698e9c38_large.png"} id={"fasdf-fasdf-fasdf-fdfv"}  />
+              <NewsItem title={"Muốn sexy, hãy học cách chinh phục short jeans!"} lstContent={"Ai bảo cứ phải bikini mới là tuyệt đỉnh của mùa hè? Short jeans có khi còn làm tốt hơn"} imageTheme={"https://file.hstatic.net/1000406172/article/123_9bc2ca2b53b74948b193fb16698e9c38_large.png"} id={"fasdf-fasdf-fasdf-fdfv"}  />
+          </div>
+        </div>
       </section>
-
     </main>
   );
 }
