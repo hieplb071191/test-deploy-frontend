@@ -101,10 +101,11 @@ export function ProductFilter() {
                     }
                     dispatch(setQuery(queryData))
                 } else {
-                    const listBranch = productQuery.branch.split(',')
+                    const listBranch = productQuery.branch.split(',') || []
+                    listBranch.push(value.branch)
                     const queryData = {
                         ...productQuery,
-                        branch: listBranch.push(value.branch).join(',')
+                        branch: listBranch.join(',')
                     }
                     dispatch(setQuery(queryData))
                 }

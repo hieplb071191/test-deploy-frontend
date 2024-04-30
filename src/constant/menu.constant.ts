@@ -35,6 +35,15 @@ const manMenuItemsProps = [
             perPage: '8',
         }
     },
+    {
+        title: '- Phụ kiện',
+        url: 'product',
+        params: {
+            type: 'accessory',
+            page: '1',
+            perPage: '8',
+        }
+    },
 ]
 
 

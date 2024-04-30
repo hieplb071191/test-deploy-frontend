@@ -23,6 +23,7 @@ const config: Config = {
        screens: {
         sm: '600px',
         md: '728px',
+        mx: '820px',
         lg: '984px',
         xl: '1280px',
         '2xl': '1360px',
@@ -34,6 +35,7 @@ const config: Config = {
       '2sx': '450px',
       sm: '640px',
       md: '768px',
+      mx: '820px',
       lg: '1024px',
       xl: '1280px',
       '2xl': '1536px',

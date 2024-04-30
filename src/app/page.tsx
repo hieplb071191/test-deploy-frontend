@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import useFetch from "@/hooks/useFetch";
 import convertdataProduct from "@/utils/convert-data-product.util";
+import AnnimationImage from "@/components/image/annimation-image";
 
 const bannerCauroselProp= [
     {
@@ -29,12 +30,23 @@ const bannerCauroselProp= [
 export default function Home() {
   const token = useSelector((state: RootState) => state.token.token)
   const [hotProduct, setHotProduct] = useState<any[]>([])
+  const [newsHotProduct, setNewsHotProduct] = useState<any[]>([])
   console.log(process.env.BACKEND_URL)
   useEffect(() => {
     get('product-public/product', {page: 1, perPage: 8}, token).then(res => {
       console.log('res', res.data.rows)
       if (res.data?.rows?.length) {
         setHotProduct(convertdataProduct(res.data.rows))
+        setNewsHotProduct(prev => {
+          return [
+            ...convertdataProduct(res.data.rows),
+            ...convertdataProduct(res.data.rows),
+            ...convertdataProduct(res.data.rows),
+            ...convertdataProduct(res.data.rows),
+            ...convertdataProduct(res.data.rows),
+            ...convertdataProduct(res.data.rows),
+          ]
+        })
       }
     }).catch(e => {
       console.log(e)
@@ -55,7 +67,7 @@ export default function Home() {
             sx:relative
             xl:container 
             xl:absolute 
-            xl:grid-cols-3 
+            md:grid-cols-3 
             bg-white 
             xl:left-1/2 
             xl:-translate-x-1/2 
@@ -70,14 +82,14 @@ export default function Home() {
       </section>
       <section className="m-auto sx:w-full xl:container xl:mt-48 2xl:mt-60 container">
         <div className="flex flex-col justify-center items-center mb-4">
-            <span className="font-semibold text-xl font-sans">
+            <span className="font-semibold text-3xl font-sans">
               Sản phẩm mới
             </span>
             <span className="font-light text-base font-sans">
-              Cập nhật những sản phẩm mới nhật
+              Cập nhật những sản phẩm mới nhất
             </span>
         </div>
-        <div className="grid sx:grid-cols-1 2sx:grid-cols-2 md:grid-cols-3 xl:grid-cols-4  mt-4 mb-4">
+        <div className="grid sx:grid-cols-1 2sx:grid-cols-2 mx:grid-cols-3 xl:grid-cols-4  mt-4 mb-4">
           {
             hotProduct.map((item,index) => (
               <CartItem 
@@ -92,7 +104,48 @@ export default function Home() {
             ))
           }
         </div>
+        <div className="container mx-auto grid sx:grid-cols-1 xl:grid-cols-2  sx:p-4 sx:gap-4 xl:gap-7 my-6">
+          <div className="flex flex-col justify-start sx:gap-4 xl:gap-7 w-full h-full">
+              <div className="w-full xl:min-h-[271px]">
+                <AnnimationImage imageUrl={'https://theme.hstatic.net/1000406172/1000655826/14/img_banner_center_1.jpg?v=164'} />
+              </div>
+              <div className="w-full xl:min-h-[271px]">
+                <AnnimationImage imageUrl={'https://theme.hstatic.net/1000406172/1000655826/14/img_banner_center_2.jpg?v=164'} />
+              </div>
+          </div>
+
+          <div className="w-full h-full">
+                <AnnimationImage imageUrl={'https://theme.hstatic.net/1000406172/1000655826/14/img_banner_center_3.jpg?v=164'} />
+            </div>
+        </div>
+        <div className="flex flex-col justify-center items-center mt-8 mb-4">
+            <span className="font-semibold text-3xl font-sans">
+              Sản phẩm bán chạy
+            </span>
+            <span className="font-light text-base font-sans">
+              Cập nhật những sản phẩm bán chạy
+            </span>
+        </div>
+        <div className="sx:w-full xl:container overflow-x-auto mx-auto p-3">
+          <div className="sx:w-[1360px] xl:w-full grid grid-cols-4  mt-4 mb-4">
+            {
+              newsHotProduct.map((item,index) => (
+                <CartItem 
+                  listImage={item.listImage} 
+                  price={item.price} 
+                  id={item.id} 
+                  name={item.name} 
+                  imageHover={item.imageHover} 
+                  key={index}
+                  discount={item.discount}
+                  isHorizontal={true}
+                />
+              ))
+            }
+          </div>
+        </div>
       </section>
+
     </main>
   );
 }
