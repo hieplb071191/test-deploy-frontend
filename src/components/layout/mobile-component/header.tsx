@@ -17,7 +17,7 @@ export enum ShowMenuTarget {
 
 const inter = Inter({ subsets: ['latin'] })
 
-export function HeaderMobile () {
+export function HeaderMobile ({itemCartNumber = 0}) {
     const [showMenuHeader, setShowMenuHeader] = useState<ShowMenuTarget | '' >('')
     const [isLogged, setLogged] = useState(false)
     const token = useSelector((state: any) => state.token)
@@ -91,7 +91,12 @@ export function HeaderMobile () {
                       ) 
                       : (
                             <div className="relative h-full flex justify-center items-center" onClick={() => setShowMenuHeader(ShowMenuTarget.CARD)}>
-                                <LocalMallOutlinedIcon sx={{fontSize: '25px'}} className="cursor-pointer" />
+                                <LocalMallOutlinedIcon sx={{fontSize: '30px'}} className="cursor-pointer" />
+                                <div className="w-5 h-5 bg-slate-700 flex justify-center items-center" style={{position: 'absolute', borderRadius: '50%', top: '7px', left: '15px'}}>
+                                    <span className="text-white font-sans text-xs">
+                                        {itemCartNumber}
+                                    </span>
+                                </div>
                             </div>
                       )
                 }

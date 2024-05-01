@@ -1,3 +1,4 @@
+import CartPopup from "@/components/cart-popup/cart-popup"
 import { ShowMenuTarget } from "../header"
 import Menu from "./menu"
 
@@ -9,7 +10,7 @@ export function HeaderParentMenu ({targetMenu, handleclose}: {
     const getPropHeaderChildMenu = () => {
         switch (targetMenu) {
             case ShowMenuTarget.CARD:
-                return (<span>card</span>)
+                return (<CartPopup />)
             case ShowMenuTarget.MENU:
                 return (<Menu handleClose={handleclose}/>) 
         }

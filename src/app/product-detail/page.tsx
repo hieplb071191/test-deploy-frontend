@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from 'next/navigation'
-import { get } from "@/api/api-service"
+import { get, post } from "@/api/api-service"
 import { toast } from "react-toastify"
 import clsx from 'clsx'
 import BannerCaurosel from "@/components/caurosel/banner-caurosel"
 import CartQuantityItem from "@/components/input/cart-quantity-item"
 import { useFormik } from "formik"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
 import style from '@/style/product-detail.module.scss'
 import ProductDetailPolicy from "@/components/product-detail/policy"
+import { AxiosResponse } from "axios"
+import { setCart } from "@/redux/slices/cart.slice"
 
 export default function ProductDetail() {
 
@@ -26,6 +28,7 @@ export default function ProductDetail() {
     const [currentParamDetail, setCurrentParamDetail] = useState<Record<string, string>>({})
     const token = useSelector((state: RootState) => state.token.token)
     const router = useRouter()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setProductId(searchParams.get('productId'))
@@ -119,12 +122,41 @@ export default function ProductDetail() {
         initialValues: {
             quantity: 0
         },
-        onSubmit: (value) => {
+        onSubmit: async (value) => {
             if (!token) {
                 toast.error('please login!!!')
                 router.replace('/login')
             }
-            console.log(value)
+            const {data} = (await get('/user-cart/cart', {}, token)) as AxiosResponse
+            let cartItems= [
+                ...data.items,
+            ]
+
+            const checkExistedITems = cartItems.filter(item => item.productDetailId === displayProductDetail._id)
+            if (checkExistedITems.length) {
+                const itemsNotExisted = cartItems.filter(item => item.productDetailId !== displayProductDetail._id)
+                const [existedItems] =  checkExistedITems
+                let updateData = [
+                    ...itemsNotExisted,
+                    {
+                        ...existedItems,
+                        quantity: value.quantity + existedItems.quantity > displayProductDetail.quantity ? displayProductDetail.quantity : value.quantity + existedItems.quantity
+                    }
+                ]
+                cartItems = updateData
+            } else {
+                cartItems= [
+                    ...data.items,
+                    {
+                        productName: productData.name,
+                        productDetailId: displayProductDetail._id,
+                        quantity: value.quantity,
+                        price: displayPrice
+                    }
+                ]
+            }
+            const result = await post('/user-cart/create-cart', {items: cartItems}, token)
+            dispatch(setCart(result.data))
         }
     })
 

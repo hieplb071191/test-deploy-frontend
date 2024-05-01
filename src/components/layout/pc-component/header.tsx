@@ -21,7 +21,9 @@ import { setQuery } from "@/redux/slices/product-query.slice";
 const inter = Inter({ subsets: ['latin'] })
 
 
-export default function HeaderPC () {
+export default function HeaderPC ({
+    itemCartNumber = 0
+}) {
     const loginRef = useRef(null)
     const handlerSearch = useCallback(async (value: string) => {
         const test = await axios.get('https://lehiep-dev.xyz/api/health-check',)
@@ -109,8 +111,13 @@ export default function HeaderPC () {
                                     <PeopleAltOutlinedIcon sx={{fontSize: '30px'}} className="cursor-pointer"/>
                                 </CustomDropdown>   
                         </div>
-                        <div>
+                        <div className="relative">
                             <LocalMallOutlinedIcon sx={{fontSize: '30px'}} className="cursor-pointer" />
+                            <div className="w-5 h-5 bg-slate-700 flex justify-center items-center" style={{position: 'absolute', borderRadius: '50%', top: '-12px', left: '14px'}}>
+                                <span className="text-white font-sans text-xs">
+                                    {itemCartNumber}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>  

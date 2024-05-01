@@ -1,6 +1,6 @@
 import { logout } from "@/redux/slices/token.slice";
 import { store } from "@/redux/store";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { bindActionCreators } from 'redux'
 
 
