@@ -10,7 +10,7 @@ export function HeaderParentMenu ({targetMenu, handleclose}: {
     const getPropHeaderChildMenu = () => {
         switch (targetMenu) {
             case ShowMenuTarget.CARD:
-                return (<CartPopup />)
+                return (<CartPopup onClose={handleclose}/>)
             case ShowMenuTarget.MENU:
                 return (<Menu handleClose={handleclose}/>) 
         }

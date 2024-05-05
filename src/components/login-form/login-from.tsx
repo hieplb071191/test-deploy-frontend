@@ -55,7 +55,7 @@ export default function LoginForm() {
                 <span className="text-xs">Privacy Policy and Terms of Service apply.</span>
             </div>
             <CustomInput name={"email"} formik={formik} label={"Email"} placeholder={"Email"} />
-            <CustomInput name={"password"} formik={formik} label={"password"} placeholder={"password"} type={'passowrd'} />
+            <CustomInput name={"password"} formik={formik} label={"password"} placeholder={"password"} type={'password'} />
             <CustomButton title={"Đăng nhập"} type={"submit"} className="w-full bg-gray-400"/>
             <span className="text-xs">Khách hàng mới? <a href="/signup"> Tạo tài khoản</a></span>
             <span className="text-xs">Quên mật khẩu? <a href="#">Khôi phục mật khẩu</a> </span>

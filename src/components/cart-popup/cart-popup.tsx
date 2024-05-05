@@ -3,10 +3,20 @@ import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import clsx from 'clsx'
 import style from '@/style/common.module.scss'
+import { useRouter } from "next/navigation";
+export type CartPopupType = {
+    onClose?: () => void
+}
 
-export default function CartPopup() {
+export default function CartPopup({
+    onClose = () => undefined
+}: CartPopupType) {
     const cart = useSelector((state: RootState) => state.cart.cart)
-
+    const router = useRouter()
+    const handleShowCart = () => {
+        router.replace('/cart')
+        onClose()
+    }
     return (
         <div className="p-4 flex flex-col w-full h-full">
             <div className="p-3">
@@ -57,7 +67,7 @@ export default function CartPopup() {
                 <span className="text-sm font-semibold text-red-600">0đ</span>
             </div>
             <div className="flex gap-4 justify-between py-4">
-                <button className={clsx("w-1/2 h-[45px] text-sm text-white font-light", style['background-button-black'])} type="submit">Xem giỏ hàng</button>
+                <button className={clsx("w-1/2 h-[45px] text-sm text-white font-light", style['background-button-black'])} type="submit" onClick={() => handleShowCart()}>Xem giỏ hàng</button>
                 <button className={clsx("w-1/2 h-[45px] text-sm text-white font-light", style['background-button'])} type="submit">Đặt hàng</button>
             </div>
         </div>

@@ -17,6 +17,7 @@ import SearchInput from "@/components/input/search-input";
 import CustomDropdown, { CustomDropdownProp } from "@/components/input/custom-dropdown";
 import { logginItem, manMenuItemsProps, notLoggedItems } from "@/constant/menu.constant";
 import { setQuery } from "@/redux/slices/product-query.slice";
+import CartPopup from "@/components/cart-popup/cart-popup";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,6 +34,7 @@ export default function HeaderPC ({
     const [showLogin, setShowlogin] = useState(false)
     const [isLogged, setLogged] = useState(false)
     const token = useSelector((state: any) => state.token)
+    const [showCartPopup, setShowCartPopup] = useState<boolean>(false)
     const router = useRouter()
     const dispatch = useDispatch()
     useEffect(() => {
@@ -112,12 +114,19 @@ export default function HeaderPC ({
                                 </CustomDropdown>   
                         </div>
                         <div className="relative">
-                            <LocalMallOutlinedIcon sx={{fontSize: '30px'}} className="cursor-pointer" />
+                            <LocalMallOutlinedIcon sx={{fontSize: '30px'}} className="cursor-pointer" onClick={() => setShowCartPopup(!showCartPopup)}/>
                             <div className="w-5 h-5 bg-slate-700 flex justify-center items-center" style={{position: 'absolute', borderRadius: '50%', top: '-12px', left: '14px'}}>
                                 <span className="text-white font-sans text-xs">
                                     {itemCartNumber}
                                 </span>
                             </div>
+                            {
+                                !!showCartPopup && (
+                                    <div className="absolute w-[500px] h-auto bg-white right-0 top-10 shadow-lg">
+                                        <CartPopup onClose={() => setShowCartPopup(false)}/>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>  
