@@ -4,7 +4,7 @@ import { FacebookEmbed } from 'react-social-media-embed';
 
 export default function FooterPc () {
     return (
-        <section className="sx:hidden mx:block mx:p-4 xl:p-0 w-full bg-slate-800">
+        <section className="sx:hidden mx:block mx:p-4 xl:p-0 w-full bg-slate-800 sticky">
             <div className="mx:grid mx:grid-cols-2 xl:flex xl:container xl:justify-around gap-6 w-full mx-auto px-3 py-5">
                 <div className="flex flex-col justify-start items-start">
                     <span className="font-sans text-white text-xl">Giới thiệu</span>

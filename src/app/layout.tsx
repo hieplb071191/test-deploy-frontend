@@ -30,7 +30,9 @@ export default function RootLayout({
                 <>
                   
                     <Header />
-                      {children}
+                      <div className="w-full min-h-svh">
+                        {children}
+                      </div>
                       <ToastContainer />
                     <Footer />                    
                 </>

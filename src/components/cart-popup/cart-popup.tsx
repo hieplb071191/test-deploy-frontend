@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import clsx from 'clsx'
 import style from '@/style/common.module.scss'
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 export type CartPopupType = {
     onClose?: () => void
 }
@@ -12,7 +13,17 @@ export default function CartPopup({
     onClose = () => undefined
 }: CartPopupType) {
     const cart = useSelector((state: RootState) => state.cart.cart)
+  
     const router = useRouter()
+    const totalPrice = useMemo(() => {
+        if (cart?.items) {
+            return cart.items.reduce((acc: number,cur: any) => {
+                return acc += (cur.price * cur.quantity)
+            }, 0)
+        } else {
+            return 0
+        }
+    }, [cart])
     const handleShowCart = () => {
         router.replace('/cart')
         onClose()
@@ -64,7 +75,7 @@ export default function CartPopup({
             <hr />
             <div className="flex justify-between mt-4">
                 <span className="text-[#677279] text-sm font-light">TỔNG TIỀN</span>
-                <span className="text-sm font-semibold text-red-600">0đ</span>
+                <span className="text-sm font-semibold text-red-600">{totalPrice.toLocaleString()}đ</span>
             </div>
             <div className="flex gap-4 justify-between py-4">
                 <button className={clsx("w-1/2 h-[45px] text-sm text-white font-light", style['background-button-black'])} type="submit" onClick={() => handleShowCart()}>Xem giỏ hàng</button>

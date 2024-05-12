@@ -46,7 +46,9 @@ export default function ProductSort() {
     const handleSetQuery = (item: {title: string, value: string}) => {
         const queryData = {
             ...productQuery,
-            sort: item.value
+            sort: item.value,
+            page: '1',
+            perPage: '8',
         }
         dispatch(setQuery(queryData))
     }

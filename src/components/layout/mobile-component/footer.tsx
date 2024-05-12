@@ -25,7 +25,7 @@ export default function FooterMobile() {
     }
 
     return (
-        <section className="sx:flex flex-col md:hidden">
+        <section className="sx:flex flex-col md:hidden w-full">
             <div className="bg-[#333e48] w-full h-16 flex justify-center items-center" onClick={() => setOpenDropdown(!openDropdown)}>
                 <span className="text-lg text-[#9f9f9f] font-semibold font-sans work tracking-wider">Thông tin khác</span> &nbsp; 
                 {
