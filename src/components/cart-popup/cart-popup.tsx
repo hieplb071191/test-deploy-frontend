@@ -25,7 +25,7 @@ export default function CartPopup({
         }
     }, [cart])
     const handleShowCart = () => {
-        router.replace('/cart')
+        router.replace('/cart-detail')
         onClose()
     }
     return (
